@@ -2,9 +2,9 @@ name: Daily 증권사 리포트 자동 수집
 
 on:
   schedule:
-    # 월~금 한국시간(KST) 오전 08:30 실행 (UTC 기준 23:30)
-    - cron: '30 23 * * 0-4'
-  workflow_dispatch: # 깃허브 웹 화면에서 수동 실행할 수 있는 버튼 활성화
+    # 매일 한국시간(KST) 01:00 실행 (UTC 기준 전일 16:00)
+    - cron: '0 16 * * *'
+  workflow_dispatch: # 웹에서 필요 시 수동 실행 가능
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: 리포트 다운로드 및 구글 드라이브 업로드 실행
+    - name: 전일자 리포트 다운로드 및 구글 드라이브 업로드 실행
       env:
         GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
         GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
